@@ -1,18 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-
-class Dog:
-    def __init__(self, name, breed, description, age):
-        self.name = name
-        self.breed = breed
-        self.description = description
-        self.age = age
-
-dogs = [
-    Dog('Theo', 'goldendoodle', 'best boi', 3),
-    Dog('Meow', 'pembroke welsh corgi', 'best butt around', 0),
-    Dog('Goliath', 'dachsund', '3 legged dog', 4)
-]
+from .models import Dog
 
 # Create your views here.
 def home(request):
@@ -24,4 +12,9 @@ def about(request):
 
 
 def dogs_index(request):
+  dogs = Dog.objects.all()
   return render(request, 'dogs/index.html', {'dogs': dogs})
+
+def dogs_detail(request, dog_id):
+  dog = Dog.objects.get(id=dog_id)
+  return render(request, 'dogs/detail.html', {'dog': dog})
